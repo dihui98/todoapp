@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'taskManager.dart';
+import 'task.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,9 +21,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
+TaskManager taskManager = TaskManager();
+
 class ToDoPage extends StatefulWidget {
   const ToDoPage({Key? key}) : super(key: key);
-
   @override
   State<ToDoPage> createState() => _ToDoPageState();
 }
@@ -36,19 +39,21 @@ class _ToDoPageState extends State<ToDoPage> {
       ),
       body: SafeArea(
         child: Container(
-          child: Column(
-            children: [
-              taskTile(),
-              taskTile(),
-              taskTile(),
-              taskTile(),
-            ],
-          ),
+          child: getTaskTileListUI(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(context: context, builder: buildBottomSheet);
+          //showModalBottomSheet(context: context, builder: buildBottomSheet);
+          //taskManager.addTask('Task D');
+          //addTask('Task D');
+          setState(() {
+            taskManager.taskList
+                .add(Task(taskName: 'newTask', taskChecked: false));
+            //taskManager.removeTask(taskManager.taskList.length - 1 - 0);
+          });
+          print(taskManager.taskList.length);
+          //print('a');
         },
         tooltip: 'Add New Item',
         child: const Icon(Icons.add),
@@ -65,20 +70,48 @@ Widget buildBottomSheet(BuildContext context) {
   );
 }
 
-class taskTile extends StatelessWidget {
-  const taskTile({
-    Key? key,
-  }) : super(key: key);
+Widget getTaskTileListUI() {
+  List<TaskTile> taskTileList = [];
+
+  for (int i = 0; i < taskManager.taskList.length; i++) {
+    taskTileList.add(TaskTile(taskManager.taskList[i].taskName));
+  }
+
+  return Column(
+    children: taskTileList,
+  );
+}
+
+class TaskTile extends StatefulWidget {
+  String taskTileName;
+
+  TaskTile(this.taskTileName);
+
+  @override
+  State<TaskTile> createState() => _TaskTileState(taskTileName);
+}
+
+class _TaskTileState extends State<TaskTile> {
+  String taskTileName;
+
+  _TaskTileState(this.taskTileName);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Row(
         children: [
-          Text('Stuff A'),
+          Text(taskTileName),
           Checkbox(value: false, onChanged: (onChanged) {}),
           Icon(Icons.edit),
-          Icon(Icons.remove_circle_outline),
+          FlatButton(
+            onPressed: () {
+              setState(() {
+                taskManager.removeTask(0);
+              });
+            },
+            child: Icon(Icons.remove_circle_outline),
+          )
         ],
       ),
     );
