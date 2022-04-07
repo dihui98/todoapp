@@ -4,11 +4,13 @@ class TaskTile extends StatelessWidget {
   final bool? isChecked;
   final String? taskTitle;
   final Function? checkboxCallback;
+  final Function? longPressCallback;
 
   TaskTile({
     this.isChecked,
     this.taskTitle,
     this.checkboxCallback,
+    this.longPressCallback,
   });
 
   @override
@@ -19,12 +21,11 @@ class TaskTile extends StatelessWidget {
         style: TextStyle(
             decoration: isChecked! ? TextDecoration.lineThrough : null),
       ),
+      onLongPress: () => longPressCallback!(),
       trailing: Checkbox(
         activeColor: Colors.lightBlueAccent,
         value: isChecked,
-        onChanged: (newValue) {
-          print('c');
-        }, //=> checkboxCallback!(),
+        onChanged: (newValue) => checkboxCallback!(),
       ),
     );
   }
