@@ -22,9 +22,9 @@ class TaskData extends ChangeNotifier {
   }
 
   void addTask(String? newTaskTitle) {
-    //final task = Task(name: newTaskTitle!, isDone: false);
-    //_tasks.add(task);
-    //notifyListeners();
+    final task = Task(name: newTaskTitle!, isDone: false);
+    _tasks.add(task);
+    notifyListeners();
   }
 
   void updateData(Task task) {
