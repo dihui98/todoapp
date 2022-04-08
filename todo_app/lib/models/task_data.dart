@@ -40,6 +40,8 @@ class TaskData extends ChangeNotifier {
     for (int i = 0; i < tasks.length; i++) {
       if (tasks[i].isDone) {
         deleteTask(tasks[i]);
+        deleteAllTask();
+        break;
       }
     }
     notifyListeners();
