@@ -5,7 +5,7 @@ import 'package:todo_app/models/task.dart';
 import 'package:flutter/foundation.dart';
 
 class TaskData extends ChangeNotifier {
-  List<Task> _tasks = [
+  final List<Task> _tasks = [
     Task(name: 'Task A'),
     Task(name: 'Task B'),
     Task(name: 'Task C'),
@@ -34,6 +34,20 @@ class TaskData extends ChangeNotifier {
 
   void deleteTask(Task task) {
     _tasks.remove(task);
+    notifyListeners();
+  }
+
+  void deleteAllTask() {
+    for (int i = 0; i < tasks.length; i++) {
+      if (tasks[i].isDone) {
+        deleteTask(tasks[i]);
+      }
+    }
+    notifyListeners();
+  }
+
+  void updateTask(Task task, String newName) {
+    task.toggleUpdateTitle(newName);
     notifyListeners();
   }
 }
