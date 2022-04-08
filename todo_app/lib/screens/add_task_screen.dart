@@ -42,7 +42,7 @@ class AddTaskScreen extends StatelessWidget {
                 color: Colors.lightBlueAccent,
                 onPressed: () {
                   // TODO: add task features
-                  taskData.addTask(newTaskTitle!);
+                  taskData.addTask(newTaskTitle!, false);
                   Navigator.pop(context);
                 },
                 child: const Text(
